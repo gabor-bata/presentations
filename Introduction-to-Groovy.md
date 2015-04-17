@@ -39,7 +39,7 @@ but Groovy code can be more compact.
 ### LANGUAGE CHARACTERISTICS
 
 * **PARADIGM** - Object-oriented, imperative, scripting, functional
-* **TYPING** - DISCIPLINE Dynamic, Static, Strong, Duck
+* **TYPING DISCIPLINE** - Dynamic, Static, Strong, Duck
 
 -----
 
