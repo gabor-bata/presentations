@@ -1,12 +1,12 @@
-# INTRODUCTION TO GROOVY
+# Introduction to Groovy
 
-GABOR BATA
+Gabor Bata
 
-APRIL 20, 2015
+April 20, 2015
 
 -----
 
-### AGENDA
+### Agenda
 
 1. Groovy overview
 2. Language characteristics
@@ -17,7 +17,7 @@ APRIL 20, 2015
 
 -----
 
-### GROOVY OVERVIEW
+### Groovy overview
 
 Groovy is a dynamic language for the JVM. It shines with
 
@@ -36,16 +36,16 @@ but Groovy code can be more compact.
 
 -----
 
-### LANGUAGE CHARACTERISTICS
+### Language characteristics
 
-* **PARADIGM** - Object-oriented, imperative, scripting, functional
-* **TYPING DISCIPLINE** - Dynamic, Static, Strong, Duck
+* **Paradigm** - Object-oriented, imperative, scripting, functional
+* **Typing DISCIPLINE** - Dynamic, Static, Strong, Duck
 
 -----
 
-### LANGUAGE CHARACTERISTICS - CONTINUED
+### Language characteristics - continued
 
-**DUCK TYPING**
+**Duck typing**
 
 > "If it walks like a duck and talks like a duck, it must be a duck".
 
@@ -56,7 +56,7 @@ the method/function at run time.
 
 -----
 
-### FROM JAVA TO GROOVY
+### From Java to Groovy
 
 ```java
 package com.acme.java.example;
@@ -108,9 +108,9 @@ println helloWorld.greet()
 
 -----
 
-### ESSENTIAL GROOVY FEATURES - 1 / 5
+### Essential Groovy features - 1 / 5
 
-**ASSERT STATEMENT** - Verify pre- and post-conditions
+**Assert statement** - Verify pre- and post-conditions
 
 ```groovy
 def version = 42
@@ -119,7 +119,7 @@ version++
 assert version == 42  // assertion failure
 ```
 
-**OPTIONAL PARENTHESES** - Can be omitted if the method signature requires at least one parameter (DSL friendly).
+**Optional parentheses** - Can be omitted if the method signature requires at least one parameter (DSL friendly).
 
 ```groovy
 // parentheses is optional
@@ -137,9 +137,9 @@ list.size()
 
 -----
 
-### ESSENTIAL GROOVY FEATURES - 2 / 5
+### Essential Groovy features - 2 / 5
 
-**STRINGS**
+**Strings**
 
 ```groovy
 def single  = 'This is a \'single-quoted\' string'  // java.lang.String
@@ -150,7 +150,7 @@ def multiline = """
 """
 ```
 
-**LISTS**
+**Lists**
 
 ```groovy
 def names = ['Austin Powers', 'Dr. Evil'] // ArrayList
@@ -176,9 +176,9 @@ println names[1..3]
 
 -----
 
-### ESSENTIAL GROOVY FEATURES - 3 / 5
+### Essential Groovy features - 3 / 5
 
-**MAPS**
+**Maps**
 
 ```groovy
 def releaseYears = ['Java': 1995, 'Groovy': 2003]  // java.lang.LinkedHashMap
@@ -190,7 +190,7 @@ assert releaseYears.size() == 3
 releaseYears.each { lang, year -> println "${lang} was first released in ${year}" }
 ```
 
-**REGEX**
+**Regex**
 
 ```groovy
 def twister = 'she sells sea shells'
@@ -205,9 +205,9 @@ pattern.matcher(twister).each { ... }   // matchers are iterable
 ```
 -----
 
-### ESSENTIAL GROOVY FEATURES - 4 / 5
+### Essential Groovy features - 4 / 5
 
-**CLOSURES** - A closure captures a piece of logic and the enclosing scope.
+**Closures** - A closure captures a piece of logic and the enclosing scope.
 They are first-class objects and can receive messages, can be returned from method calls,
 stored in fields, and used as arguments to a method call.
 This is a similar concept of lambdas in Java.
@@ -229,9 +229,9 @@ printClosure "Austin", "Dr. Evil"
 
 -----
 
-### ESSENTIAL GROOVY FEATURES - 5 / 5
+### Essential Groovy features - 5 / 5
 
-**ITERABLES** - Every object is iterable in Groovy, even if it was implemented in Java.
+**Iterables** - Every object is iterable in Groovy, even if it was implemented in Java.
 You can apply the following iterative object methods on them (this is not a complete list):
 
 Returns   | Purpose
@@ -246,9 +246,9 @@ Integer   | findLastIndexOf() { ... }
 
 -----
 
-### SUMMARY
+### Summary
 
-**GROOVY IS ACTUALLY JAVA (ON STEROIDS)**
+**Groovy is actually Java (on steroids)**
 
 * JVM based language
 * Short learning curve
@@ -262,14 +262,14 @@ Integer   | findLastIndexOf() { ... }
 
 -----
 
-### USEFUL RESOURCES
+### Useful resources
 
-**WEBSITES**
+**Websites**
 
 * Groovy Programming Language - http://www.groovy-lang.org/
 * Groovy web console - http://groovyconsole.appspot.com/
 
-**RECOMMENDED READING**
+**Recommended reading**
 
 * Groovy in Action - Dierk König (Manning)
 * Programming Groovy - Venkat Subramaniam (The Pragmatic Bookshelf)
