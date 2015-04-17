@@ -11,7 +11,7 @@ APRIL 20, 2015
 1. Groovy overview
 2. Language characteristics
 3. From Java to Groovy
-4. Essential Groovy features – lists, maps, closures etc.
+4. Essential Groovy features - lists, maps, closures etc.
 5. Summary
 6. Questions
 
@@ -43,7 +43,7 @@ but Groovy code can be more compact.
 
 -----
 
-### LANGUAGE CHARACTERISTICS – CONTINUED
+### LANGUAGE CHARACTERISTICS - CONTINUED
 
 **DUCK TYPING**
 
@@ -108,7 +108,7 @@ println helloWorld.greet()
 
 -----
 
-### ESSENTIAL GROOVY FEATURES – 1 / 5
+### ESSENTIAL GROOVY FEATURES - 1 / 5
 
 **ASSERT STATEMENT** - Verify pre- and post-conditions
 
@@ -137,7 +137,7 @@ list.size()
 
 -----
 
-### ESSENTIAL GROOVY FEATURES – 2 / 5
+### ESSENTIAL GROOVY FEATURES - 2 / 5
 
 **STRINGS**
 
@@ -176,7 +176,7 @@ println names[1..3]
 
 -----
 
-### ESSENTIAL GROOVY FEATURES – 3 / 5
+### ESSENTIAL GROOVY FEATURES - 3 / 5
 
 **MAPS**
 
@@ -205,7 +205,7 @@ pattern.matcher(twister).each { ... }   // matchers are iterable
 ```
 -----
 
-### ESSENTIAL GROOVY FEATURES – 4 / 5
+### ESSENTIAL GROOVY FEATURES - 4 / 5
 
 **CLOSURES** - A closure captures a piece of logic and the enclosing scope.
 They are first-class objects and can receive messages, can be returned from method calls,
@@ -229,7 +229,7 @@ printClosure "Austin", "Dr. Evil"
 
 -----
 
-### ESSENTIAL GROOVY FEATURES – 5 / 5
+### ESSENTIAL GROOVY FEATURES - 5 / 5
 
 **ITERABLES** - Every object is iterable in Groovy, even if it was implemented in Java.
 You can apply the following iterative object methods on them (this is not a complete list):
@@ -256,7 +256,7 @@ Integer   | findLastIndexOf() { ... }
 * Dynamic typing (with optional static typing)
 * Compact syntax
 * Closure is first class citizen
-* Syntactic sugar – collections, property access, etc.
+* Syntactic sugar - collections, property access, etc.
 * Regex is first class citizen
 * Ideal language for creating DSLs (e.g. Gradle, Grails)
 
@@ -271,6 +271,6 @@ Integer   | findLastIndexOf() { ... }
 
 **RECOMMENDED READING**
 
-* Groovy in Action – Dierk König (Manning)
-* Programming Groovy – Venkat Subramaniam (The Pragmatic Bookshelf)
-* Beginning: Groovy and Grails – Christopher M. Judd, Joseph Faisal Nusairat, James Shingler (Apress)
+* Groovy in Action - Dierk König (Manning)
+* Programming Groovy - Venkat Subramaniam (The Pragmatic Bookshelf)
+* Beginning: Groovy and Grails - Christopher M. Judd, Joseph Faisal Nusairat, James Shingler (Apress)
