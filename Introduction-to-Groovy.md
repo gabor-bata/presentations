@@ -59,42 +59,42 @@ the method/function at run time.
 ### FROM JAVA TO GROOVY
 
 ```java
-01 package com.acme.java.example;
-02
-03 public class HelloWorld {
-04   private String name;
-05
-06   public void setName(String name) {
-07     this.name = name;
-08   }
-09
-10   public String getName() {
-11     return name;
-12   }
-13
-14   public String greet() {
-15     return "Hello " + name;
-16   }
-17
-18   public static void main(String[] args) {
-19     HelloWorld helloWorld = new HelloWorld();
-20     helloWorld.setName("Austin Powers");
-21     System.out.println(helloWorld.greet());
-22   }
-23 }
+package com.acme.java.example;
+
+public class HelloWorld {
+  private String name;
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String greet() {
+    return "Hello " + name;
+  }
+
+  public static void main(String[] args) {
+    HelloWorld helloWorld = new HelloWorld();
+    helloWorld.setName("Austin Powers");
+    System.out.println(helloWorld.greet());
+  }
+}
 ```
 
 ```groovy
-01 package com.acme.groovy.example
-02
-03 class HelloWorld {
-04   def name
-05   def greet() { "Hello ${name}" }
-06 }
-07
-08 def helloWorld = new HelloWorld()
-09 helloWorld.name = "Austin Powers"
-10 println helloWorld.greet()
+package com.acme.groovy.example
+
+class HelloWorld {
+  def name
+  def greet() { "Hello ${name}" }
+}
+
+def helloWorld = new HelloWorld()
+helloWorld.name = "Austin Powers"
+println helloWorld.greet()
 ```
 
 * typing is optional (‘String’ vs. ‘def’)
