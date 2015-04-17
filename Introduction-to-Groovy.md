@@ -39,7 +39,7 @@ but Groovy code can be more compact.
 ### Language characteristics
 
 * **Paradigm** - Object-oriented, imperative, scripting, functional
-* **Typing DISCIPLINE** - Dynamic, Static, Strong, Duck
+* **Typing discipline** - Dynamic, Static, Strong, Duck
 
 -----
 
