@@ -188,12 +188,15 @@ assert releaseYears['Java'] == 1995
 releaseYears['Ruby'] = 1995
 assert releaseYears.size() == 3
 releaseYears.each { lang, year -> println "${lang} was first released in ${year}" }
+```
+
+**REGEX**
+
+```groovy
 def twister = 'she sells sea shells'
 assert twister =~ 'she'                 // contains 'she' (i.e. find)
 assert twister ==~ /she.*shells/        // starts with 'she' and ends with 'shells'
 ```
-
-**REGEX**
 
 ```groovy
 def pattern = ~/she.*shells/            // the same example precompiled
