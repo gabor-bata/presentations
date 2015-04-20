@@ -38,6 +38,18 @@ but Groovy code can be more compact.
 
 ### Language characteristics
 
+```
+                     Strong
+                        |
+            Groovy      |    C#
+          Ruby Python   |   Java
+Dynamic ----------------+---------------- Static
+           JavaScript   |    C
+              Perl      |   C++
+                        |
+                      Weak
+```
+
 * **Paradigm** - Object-oriented, imperative, scripting, functional
 * **Typing discipline** - Dynamic, Static, Strong, Duck
 
