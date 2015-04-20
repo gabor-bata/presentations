@@ -6,7 +6,7 @@ Gabor Bata - June 2, 2014
 
 ### DRY - Don’t Repeat Yourself
 
-> "Every piece of knowledge must have a single, unambiguous, authoritative 
+> "Every piece of knowledge must have a single, unambiguous, authoritative
 > representation within a system."
 
 Andy Hunt and Dave Thomas - *The Pragmatic Programmer*
@@ -45,7 +45,7 @@ Knowledge changes rapidly, regular maintenance is needed
 * Automate repetitive tasks
   * code generation (from schema or documents), continous build, automated tests, BDD etc.
 
---
+---
 
 ### Inadvertent duplication
 
@@ -55,9 +55,9 @@ Duplication comes from bad design, improper performance improvements etc.
 
 ```java
 public class Line {
-   public Point start; 
-   public Point end; 
-   public double length; 
+   public Point start;
+   public Point end;
+   public double length;
 }
 ```
 

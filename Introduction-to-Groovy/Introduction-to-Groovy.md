@@ -4,7 +4,7 @@ Gabor Bata
 
 April 20, 2015
 
------
+---
 
 ### Agenda
 
@@ -15,7 +15,7 @@ April 20, 2015
 5. Summary
 6. Questions
 
------
+---
 
 ### Groovy overview
 
@@ -34,14 +34,14 @@ Groovy can largely be viewed as a superset of Java
 as most valid Java files are also valid Groovy files,
 but Groovy code can be more compact.
 
------
+---
 
 ### Language characteristics
 
 * **Paradigm** - Object-oriented, imperative, scripting, functional
 * **Typing discipline** - Dynamic, Static, Strong, Duck
 
------
+---
 
 ### Language characteristics - continued
 
@@ -54,7 +54,7 @@ an object of a particular type is compatible with a method or function,
 if it supplies all the methods/method signatures asked of it by
 the method/function at run time.
 
------
+---
 
 ### From Java to Groovy
 
@@ -106,7 +106,7 @@ println helloWorld.greet()
 * fields (properties) can be accessed by dot notation
 * handy methods and shortcuts (e.g. println)
 
------
+---
 
 ### Essential Groovy features - 1 / 5
 
@@ -135,7 +135,7 @@ println 'Groovy is awesome!'
 list.size()
 ```
 
------
+---
 
 ### Essential Groovy features - 2 / 5
 
@@ -174,7 +174,7 @@ println names[1..3]
 // [Dr. Evil, Mini-me]
 ```
 
------
+---
 
 ### Essential Groovy features - 3 / 5
 
@@ -203,7 +203,8 @@ def pattern = ~/she.*shells/            // the same example precompiled
 assert pattern.matcher(twister).matches()
 pattern.matcher(twister).each { ... }   // matchers are iterable
 ```
------
+
+---
 
 ### Essential Groovy features - 4 / 5
 
@@ -227,7 +228,7 @@ def printClosure = { name1, name2 -> println "Hello, ${name1}, ${name2}" }
 printClosure "Austin", "Dr. Evil"
 ```
 
------
+---
 
 ### Essential Groovy features - 5 / 5
 
@@ -244,7 +245,7 @@ List      | findAll { ... }
 Integer   | findIndexOf { ... }
 Integer   | findLastIndexOf() { ... }
 
------
+---
 
 ### Summary
 
@@ -260,7 +261,7 @@ Integer   | findLastIndexOf() { ... }
 * Regex is first class citizen
 * Ideal language for creating DSLs (e.g. Gradle, Grails)
 
------
+---
 
 ### Useful resources
 
