@@ -134,7 +134,7 @@ assert version == 42  // assertion failure
 **Optional parentheses** - Can be omitted if the method signature requires at least one parameter (DSL friendly).
 
 ```groovy
-// parentheses is optional
+// parentheses are optional
 Math.max(1, 2)
 Math.max 1, 2
 
@@ -143,7 +143,7 @@ println 'Groovy is awesome!'
 ```
 
 ```groovy
-// parentheses is mandatory
+// parentheses are mandatory
 list.size()
 ```
 
