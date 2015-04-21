@@ -100,7 +100,7 @@ public class HelloWorld {
 package com.acme.groovy.example
 
 class HelloWorld {
-  def name
+  def name // private
   def greet() { "Hello ${name}" }
 }
 
@@ -111,7 +111,7 @@ println helloWorld.greet()
 
 * typing is optional (‘String’ vs. ‘def’)
 * semi-colons/parentheses are optional
-* public visibility is the default
+* public visibility is the default for classes and methods
 * string interpolation with GString
 * ‘return’ can be omitted (the last expression is returned)
 * getter/setter is provided automatically
