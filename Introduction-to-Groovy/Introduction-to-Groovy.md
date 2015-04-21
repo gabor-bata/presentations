@@ -234,7 +234,7 @@ printClosure()  // Outputs: Hello, Dr. Evil
 
 def printClosure = { name -> println "Hello, ${name}" }
 printClosure "Austin"
-printClosure "Dr. Evil"
+printClosure.call "Dr. Evil"
 
 def printClosure = { name1, name2 -> println "Hello, ${name1}, ${name2}" }
 printClosure "Austin", "Dr. Evil"
