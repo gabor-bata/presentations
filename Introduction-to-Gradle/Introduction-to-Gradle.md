@@ -144,6 +144,23 @@ The design philosophy of Gradle is that all useful features are provided by Grad
 
 ---
 
+# Plugins - standard plugins
+
+Plugins    | Description
+-----------|------------
+java       | Java compilation, testing and bundling capabilities.
+war        | Assembling web application WAR files.
+groovy     | Building Groovy projects.
+scala      | Building Scala projects.
+maven      | Publishing artifacts to Maven repositories.
+checkstyle | Performs quality checks on your project's Java source files
+pmd        | Performs quality checks on your project's Java source files 
+sonar      | Provides integration with the Sonar code quality platform
+
+And many more plugins! You can even implement your own.
+
+---
+
 # Java plugin
 
 We can create a Java project by applying the **java plugin** to our `build.gradle` file.
