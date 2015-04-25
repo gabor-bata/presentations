@@ -233,7 +233,9 @@ jar {
 
 ---
 
-# Java plugin - Dependencies
+# Java plugin - dependency
+
+Gradle originally used Ivy under the hood for its dependency management. Gradle has replaced this direct dependency on Ivy with a native Gradle dependency resolution engine which supports a range of approaches to dependency resolution including both POM and Ivy descriptor files.
 
 Add logging and unit testing capabilities:
 
