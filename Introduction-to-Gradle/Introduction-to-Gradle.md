@@ -1,4 +1,4 @@
-# Introduction to Gradle - DRAFT
+# Introduction to Gradle
 
 Gabor Bata
 
@@ -23,8 +23,8 @@ May 18, 2015
 Gradle is an open source build automation system. Gradle can automate the building, testing, publishing, deployment and more of software packages or other types of projects such as generated static websites, generated documentation or indeed anything else.
 
 #### Features
-* Combines the power and flexibility of Ant with
-* The dependency management and conventions of Maven
+* Combines the power and flexibility of *Ant* with
+* The dependency management and conventions of *Maven*
 * Instead of XML, it had its own clear and compact DSL, based on Groovy
 
 ### Do I need to know Groovy?
@@ -44,7 +44,6 @@ After these, we can configure our Gradle build by using the following configurat
 * Build script `build.gradle` specifies a project and its tasks.
 * Properties file `gradle.properties` is used to configure the properties of the build (optional).
 * settings file `settings.gradle` is optional in a build which has only one project. If our Gradle build has more projects, it describes which projects participate to our build.
-
 
 > You can also generate build.gradle with the `gradle init` command. If it is called in a Maven folder then Gradle tries to convert `pom.xml` to a Gradle build script. This is currently in *incubating* phase and works only for simpler projects.
 
@@ -95,10 +94,8 @@ build.dependsOn world
 defaultTasks 'build'
 ```
 
-Output:
-
 ```bash
-d:\gradle\bin\gradle
+$ gradle
 :hello
 hello
 :world
@@ -156,7 +153,7 @@ groovy     | Building Groovy projects.
 scala      | Building Scala projects.
 maven      | Publishing artifacts to Maven repositories.
 checkstyle | Performs quality checks on your project's Java source files
-pmd        | Performs quality checks on your project's Java source files 
+pmd        | Performs quality checks on your project's Java source files
 sonar      | Provides integration with the Sonar code quality platform
 
 And many more plugins! You can even implement your own.
@@ -251,7 +248,6 @@ repositories {
     //ivy { url "http://repo.acme.com/repo" }
 }
 
-// In this section you declare the dependencies for your production and test code
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
     // junit >= 4.0 is required
@@ -260,10 +256,10 @@ dependencies {
 ```
 
 ### Dependency configurations
-* **compile** - The dependencies required to compile the production source of the project.
-* **runtime** - The dependencies required by the production classes at runtime. By default, also includes the compile time dependencies. 
-* **testCompile** - The dependencies required to compile the test source of the project. By default, also includes the compiled production classes and the compile time dependencies. 
-* **testRuntime** - The dependencies required to run the tests. By default, also includes the compile, runtime and test compile dependencies. 
+* **compile** - Required to compile the production source of the project.
+* **runtime** - Required by the production classes at runtime. By default, also includes the compile time dependencies.
+* **testCompile** - Required to compile the test sources. By default, also includes the compiled production classes and the compile time dependencies.
+* **testRuntime** - Required to run the tests. By default, also includes the compile, runtime and test compile.
 
 ---
 
@@ -298,6 +294,14 @@ Those `task`, `apply`, `repositories`, and `dependencies` keywords are just norm
 * On very big projects it can be slower than Ant or Maven
 * Build scripts can become unreadable if conventions are not followed
 * It can be difficult to understand the magic behind the scenes
+
+---
+
+# Resources
+
+* *Gradle in Action* - Benjamin Muschko (Manning)
+* *Building and Testing with Gradle* - Tim Berglund, Matthew McCullough (O'Reilly) (free)
+* *Gradle Beyond the Basics* - Tim Berglund (O'Reilly) (free)
 
 ---
 
