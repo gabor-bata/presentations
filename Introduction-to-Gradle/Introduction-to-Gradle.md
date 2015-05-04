@@ -59,7 +59,7 @@ Gradle has two basic concepts: projects and tasks.
 
 The relationships between these concepts are illustrated in the following figure:
 
-```
+```bash
 +---------+
 |  Build  |
 +---------+
@@ -77,7 +77,7 @@ The relationships between these concepts are illustrated in the following figure
 
 # Projects, tasks - custom tasks
 
-```
+```gradle
 task build << {
     println 'Building the project...'
 }
@@ -96,7 +96,8 @@ defaultTasks 'build'
 ```
 
 Output:
-```
+
+```bash
 d:\gradle\bin\gradle
 :hello
 hello
@@ -115,7 +116,8 @@ Total time: 2.539 secs
 # Projects, tasks - task types
 
 Built-in copy task, e.g:
-```
+
+```gradle
 task copyDocs(type: Copy) {
     from 'src/main/doc'
     into 'build/target/doc'
@@ -192,7 +194,7 @@ The Java plugin adds many tasks to our build but the tasks which are relevant fo
 
 We can get the full list of runnable tasks and their description by running the following command at the command prompt:
 
-```
+```bash
 $ gradle tasks
 ```
 
@@ -202,7 +204,7 @@ $ gradle tasks
 
 Our build script must create an executable jar file from the following source:
 
-```
+```java
 package com.acme.simpsons;
 
 public class Homer {
@@ -214,14 +216,14 @@ public class Homer {
 
 The generated jar should work like this:
 
-```
+```bash
 $ java -jar libs/homer.jar
 "D'oh!"
 ```
 
 To achieve this, create the following `build.gradle` and execute the `gradle build` command:
 
-```
+```gradle
 apply plugin: 'java'
 
 jar {
@@ -239,7 +241,7 @@ Gradle originally used Ivy under the hood for its dependency management. Gradle 
 
 Add logging and unit testing capabilities:
 
-```
+```gradle
 apply plugin: 'java'
 
 repositories {
@@ -252,9 +254,16 @@ repositories {
 // In this section you declare the dependencies for your production and test code
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
-    testCompile 'junit:junit:4.11'
+    // junit >= 4.0 is required
+    testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 ```
+
+### Dependency configurations
+* **compile** - The dependencies required to compile the production source of the project.
+* **runtime** - The dependencies required by the production classes at runtime. By default, also includes the compile time dependencies. 
+* **testCompile** - The dependencies required to compile the test source of the project. By default, also includes the compiled production classes and the compile time dependencies. 
+* **testRuntime** - The dependencies required to run the tests. By default, also includes the compile, runtime and test compile dependencies. 
 
 ---
 
