@@ -234,8 +234,6 @@ jar {
 
 # Java plugin - dependency
 
-Gradle originally used Ivy under the hood for its dependency management. Gradle has replaced this direct dependency on Ivy with a native Gradle dependency resolution engine which supports a range of approaches to dependency resolution including both POM and Ivy descriptor files.
-
 Add logging and unit testing capabilities:
 
 ```gradle
@@ -260,6 +258,8 @@ dependencies {
 * **runtime** - Required by the production classes at runtime. By default, also includes the compile time dependencies.
 * **testCompile** - Required to compile the test sources. By default, also includes the compiled production classes and the compile time dependencies.
 * **testRuntime** - Required to run the tests. By default, also includes the compile, runtime and test compile.
+
+> Gradle originally used Ivy under the hood for its dependency management. Gradle has replaced this direct dependency on Ivy with a native Gradle dependency resolution engine which supports a range of approaches to dependency resolution including both POM and Ivy descriptor files.
 
 ---
 
