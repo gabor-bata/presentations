@@ -213,7 +213,7 @@ public class Homer {
 The generated jar should work like this:
 
 ```bash
-$ java -jar libs/homer.jar
+$ java -jar build/libs/homer-1.0.jar
 "D'oh!"
 ```
 
@@ -223,6 +223,8 @@ To achieve this, create the following `build.gradle` and execute the `gradle bui
 apply plugin: 'java'
 
 jar {
+    baseName = 'homer'
+    version = '1.0'
     manifest {
         attributes 'Main-Class': 'com.acme.simpsons.Homer'
     }
