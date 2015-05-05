@@ -15,16 +15,15 @@ May 18, 2015
 5. Java plugin
 6. Behind the scenes
 7. Summary
-8. Questions
 
 ---
 
 # Gradle overview
-Gradle is an open source build automation system. Gradle can automate the building, testing, publishing, deployment and more of software packages or other types of projects such as generated static websites, generated documentation or indeed anything else.
+Gradle is an open source build automation system which can automate the building, testing, publishing, deployment and more of software packages or other types of projects such as generated static websites, generated documentation or anything else.
 
 #### Features
-* Combines the power and flexibility of *Ant* with
-* The dependency management and conventions of *Maven*
+* Combines the power and flexibility of Ant with
+* The dependency management and conventions of Maven
 * Instead of XML, it had its own clear and compact DSL, based on Groovy
 
 ### Do I need to know Groovy?
@@ -43,7 +42,7 @@ After these, we can configure our Gradle build by using the following configurat
 
 * Build script `build.gradle` specifies a project and its tasks.
 * Properties file `gradle.properties` is used to configure the properties of the build (optional).
-* settings file `settings.gradle` is optional in a build which has only one project. If our Gradle build has more projects, it describes which projects participate to our build.
+* settings file `settings.gradle` is optional in a build which has only one project. With more projects, it describes which projects participate to our build.
 
 > You can also generate build.gradle with the `gradle init` command. If it is called in a Maven folder then Gradle tries to convert `pom.xml` to a Gradle build script. This is currently in *incubating* phase and works only for simpler projects.
 
@@ -74,7 +73,7 @@ The relationships between these concepts are illustrated in the following figure
 
 ---
 
-# Projects, tasks - custom tasks
+# Projects, tasks - define tasks
 
 ```gradle
 task build << {
@@ -121,20 +120,20 @@ task copyDocs(type: Copy) {
 }
 ```
 
-There are many build-in task types, e.g.:
+There are many built-in task types, e.g.:
 
-* Checkstyle
-* Delete
-* Exec
-* Jar
-* Zip
+* Checkstyle - Runs Checkstyle against some source files.
+* Delete - Deletes files or directories.
+* Exec - Executes a command line process.
+* Jar - Assembles a JAR archive.
+* Zip - Assembles a ZIP archive.
 * etc.
 
 ---
 
 # Plugins
 
-The design philosophy of Gradle is that all useful features are provided by Gradle plugins. A Gradle plugin can:
+The design philosophy of Gradle is that all useful features are provided by plugins, which can:
 
 * Add new tasks to the project.
 * Provide a default configuration for the added tasks. The default configuration adds new conventions to the project (e.g. the location of source code files).
@@ -156,7 +155,7 @@ checkstyle | Performs quality checks on your project's Java source files
 pmd        | Performs quality checks on your project's Java source files
 sonar      | Provides integration with the Sonar code quality platform
 
-And many more plugins! You can even implement your own.
+And many more plugins. You can even implement your own.
 
 ---
 
@@ -299,9 +298,15 @@ Those `task`, `apply`, `repositories`, and `dependencies` keywords are just norm
 
 # Resources
 
+### Books
 * *Gradle in Action* - Benjamin Muschko (Manning)
 * *Building and Testing with Gradle* - Tim Berglund, Matthew McCullough (O'Reilly) (free)
 * *Gradle Beyond the Basics* - Tim Berglund (O'Reilly) (free)
+
+### Online documentation
+* Gradle Build Language Reference: http://gradle.org/docs/current/dsl/
+* Task and task types: http://gradle.org/docs/current/dsl/org.gradle.api.Task.html
+* Standard Gradle plugins: http://gradle.org/docs/current/userguide/standard_plugins.html
 
 ---
 
