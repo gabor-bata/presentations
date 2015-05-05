@@ -81,11 +81,11 @@ task build << {
 }
 
 task hello << {
-    println 'hello'
+    println 'hello'.capitalize()
 }
 
 task world(dependsOn: hello) << {
-    println 'world'
+    println 'world'.capitalize()
 }
 
 build.dependsOn world
@@ -96,15 +96,13 @@ defaultTasks 'build'
 ```bash
 $ gradle
 :hello
-hello
+Hello
 :world
-world
+World
 :build
 Building the project...
 
 BUILD SUCCESSFUL
-
-Total time: 2.539 secs
 ```
 
 ---
@@ -229,6 +227,24 @@ jar {
         attributes 'Main-Class': 'com.acme.simpsons.Homer'
     }
 }
+```
+
+```bash
+$ gradle clean build
+:clean UP-TO-DATE
+:compileJava
+:processResources UP-TO-DATE
+:classes
+:jar
+:assemble
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:check UP-TO-DATE
+:build
+
+BUILD SUCCESSFUL
 ```
 
 ---
