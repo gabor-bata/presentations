@@ -75,6 +75,8 @@ The relationships between these concepts are illustrated in the following figure
 
 # Projects, tasks - define tasks
 
+build.gradle:
+
 ```gradle
 task build << {
     println 'Building the project...'
@@ -92,6 +94,8 @@ build.dependsOn world
 
 defaultTasks 'build'
 ```
+
+Output:
 
 ```bash
 $ gradle
@@ -196,7 +200,7 @@ $ gradle tasks
 
 # Java plugin - example
 
-Our build script must create an executable jar file from the following source:
+Our build script must create an executable jar file from the following source (Homer.java):
 
 ```java
 package com.acme.simpsons;
@@ -215,7 +219,7 @@ $ java -jar build/libs/homer-1.0.jar
 "D'oh!"
 ```
 
-To achieve this, create the following `build.gradle` and execute the `gradle build` command:
+To achieve this, create the following `build.gradle` and execute the `gradle clean build` command:
 
 ```gradle
 apply plugin: 'java'
