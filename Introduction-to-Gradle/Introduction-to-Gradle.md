@@ -122,6 +122,14 @@ task copyDocs(type: Copy) {
 }
 ```
 
+Built-in exec task, e.g:
+
+```gradle
+task foo(type: Exec) {
+    commandLine '/bin/ls'
+}
+```
+
 There are many built-in task types, e.g.:
 
 * Checkstyle - Runs Checkstyle against some source files.
