@@ -6,7 +6,7 @@ May 18, 2015
 
 ---
 
-### Agenda
+# Agenda
 
 1. Gradle overview
 2. Getting started
