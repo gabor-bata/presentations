@@ -174,7 +174,7 @@ And many more plugins. You can even implement your own.
 We can create a Java project by applying the **java plugin** to our `build.gradle` file.
 
 The Java plugin adds new conventions (e.g. the default project layout), new tasks, and new properties to our build.
-The default project layout of a Java project is following:
+The default project layout of a Java project is the following:
 
 * The `src/main/java` directory contains the source code of our project.
 * The `src/main/resources` directory contains the resources (such as properties files) of our project.
