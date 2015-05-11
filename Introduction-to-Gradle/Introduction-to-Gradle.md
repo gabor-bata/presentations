@@ -6,7 +6,7 @@ May 18, 2015
 
 ---
 
-# Agenda
+## Agenda
 
 1. Gradle overview
 2. Getting started
@@ -18,7 +18,7 @@ May 18, 2015
 
 ---
 
-# Gradle overview
+## Gradle overview
 Gradle is an open source build automation system which can automate the building, testing, publishing, deployment and more of software packages or other types of projects such as generated static websites, generated documentation or anything else.
 
 #### Features
@@ -32,7 +32,7 @@ On the other hand, knowing Groovy will help understanding what happens behind th
 
 ---
 
-# Getting started
+## Getting started
 
 1. Download Gradle from **gradle.org**
 2. Create an environment variable `GRADLE_HOME` and point it to the Gradle Installation folder
@@ -48,7 +48,7 @@ After these, we can configure our Gradle build by using the following configurat
 
 ---
 
-# Projects, tasks
+## Projects, tasks
 
 Gradle has two basic concepts: projects and tasks.
 
@@ -73,7 +73,7 @@ The relationships between these concepts are illustrated in the following figure
 
 ---
 
-# Projects, tasks - define tasks
+## Projects, tasks - define tasks
 
 build.gradle:
 
@@ -111,7 +111,7 @@ BUILD SUCCESSFUL
 
 ---
 
-# Projects, tasks - task types
+## Projects, tasks - task types
 
 Built-in copy task, e.g:
 
@@ -141,7 +141,7 @@ There are many built-in task types, e.g.:
 
 ---
 
-# Plugins
+## Plugins
 
 The design philosophy of Gradle is that all useful features are provided by plugins, which can:
 
@@ -152,7 +152,7 @@ The design philosophy of Gradle is that all useful features are provided by plug
 
 ---
 
-# Plugins - standard plugins
+## Plugins - standard plugins
 
 Plugins    | Description
 -----------|------------
@@ -169,7 +169,7 @@ And many more plugins. You can even implement your own.
 
 ---
 
-# Java plugin
+## Java plugin
 
 We can create a Java project by applying the **java plugin** to our `build.gradle` file.
 
@@ -188,7 +188,7 @@ All output files of our build are created under the `build` directory. This dire
 
 ---
 
-# Java plugin - tasks
+## Java plugin - tasks
 
 The Java plugin adds many tasks to our build but the tasks which are relevant for this presentation are:
 
@@ -206,7 +206,7 @@ $ gradle tasks
 
 ---
 
-# Java plugin - example
+## Java plugin - example
 
 Our build script must create an executable jar file from the following source (Homer.java):
 
@@ -261,7 +261,7 @@ BUILD SUCCESSFUL
 
 ---
 
-# Java plugin - dependency
+## Java plugin - dependency
 
 Add logging and unit testing capabilities:
 
@@ -311,7 +311,7 @@ Those `task`, `apply`, `repositories`, and `dependencies` keywords are just norm
 
 ---
 
-# Summary
+## Summary
 
 ### Advantages
 * Compact DSL on top of Groovy
@@ -326,7 +326,7 @@ Those `task`, `apply`, `repositories`, and `dependencies` keywords are just norm
 
 ---
 
-# Resources
+## Resources
 
 ### Books
 * *Gradle in Action* - Benjamin Muschko (Manning)
@@ -337,7 +337,3 @@ Those `task`, `apply`, `repositories`, and `dependencies` keywords are just norm
 * Gradle Build Language Reference: http://gradle.org/docs/current/dsl/
 * Task and task types: http://gradle.org/docs/current/dsl/org.gradle.api.Task.html
 * Standard Gradle plugins: http://gradle.org/docs/current/userguide/standard_plugins.html
-
----
-
-# Questions

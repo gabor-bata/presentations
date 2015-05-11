@@ -6,7 +6,7 @@ April 20, 2015
 
 ---
 
-### Agenda
+## Agenda
 
 1. Groovy overview
 2. Language characteristics
@@ -17,7 +17,7 @@ April 20, 2015
 
 ---
 
-### Groovy overview
+## Groovy overview
 
 Groovy is a dynamic language for the JVM. It shines with
 
@@ -36,7 +36,7 @@ but Groovy code can be more compact.
 
 ---
 
-### Language characteristics
+## Language characteristics
 
 ```
                      Strong
@@ -55,7 +55,7 @@ Dynamic ----------------+---------------- Static
 
 ---
 
-### Language characteristics - continued
+## Language characteristics - continued
 
 **Duck typing**
 
@@ -68,7 +68,7 @@ the method/function at run time.
 
 ---
 
-### From Java to Groovy
+## From Java to Groovy
 
 ```java
 package com.acme.java.example;
@@ -120,7 +120,7 @@ println helloWorld.greet()
 
 ---
 
-### Essential Groovy features - 1 / 5
+## Essential Groovy features - 1 / 5
 
 **Assert statement** - Verify pre- and post-conditions
 
@@ -149,7 +149,7 @@ list.size()
 
 ---
 
-### Essential Groovy features - 2 / 5
+## Essential Groovy features - 2 / 5
 
 **Strings**
 
@@ -188,7 +188,7 @@ println names[1..3]
 
 ---
 
-### Essential Groovy features - 3 / 5
+## Essential Groovy features - 3 / 5
 
 **Maps**
 
@@ -218,7 +218,7 @@ pattern.matcher(twister).each { ... }   // matchers are iterable
 
 ---
 
-### Essential Groovy features - 4 / 5
+## Essential Groovy features - 4 / 5
 
 **Closures** - A closure captures a piece of logic and the enclosing scope.
 They are first-class objects and can receive messages, can be returned from method calls,
@@ -242,7 +242,7 @@ printClosure "Austin", "Dr. Evil"
 
 ---
 
-### Essential Groovy features - 5 / 5
+## Essential Groovy features - 5 / 5
 
 **Iterables** - Every object is iterable in Groovy, even if it was implemented in Java.
 You can apply the following iterative object methods on them (this is not a complete list):
@@ -259,7 +259,7 @@ Integer   | findLastIndexOf() { ... }
 
 ---
 
-### Summary
+## Summary
 
 **Groovy is actually Java (on steroids)**
 
@@ -275,7 +275,7 @@ Integer   | findLastIndexOf() { ... }
 
 ---
 
-### Useful resources
+## Useful resources
 
 **Websites**
 

@@ -4,7 +4,7 @@ Gabor Bata - June 2, 2014
 
 ---
 
-### DRY - Don’t Repeat Yourself
+## DRY - Don’t Repeat Yourself
 
 > "Every piece of knowledge must have a single, unambiguous, authoritative
 > representation within a system."
@@ -13,7 +13,7 @@ Andy Hunt and Dave Thomas - *The Pragmatic Programmer*
 
 ---
 
-### Why is it important?
+## Why is it important?
 
 Knowledge changes rapidly, regular maintenance is needed
 
@@ -24,7 +24,7 @@ Knowledge changes rapidly, regular maintenance is needed
 
 ---
 
-### The Evils of Duplication (four i’s)
+## The Evils of Duplication (four i’s)
 
 * Imposed duplication
   * it seems there are no other choice (project standards)
@@ -37,7 +37,7 @@ Knowledge changes rapidly, regular maintenance is needed
 
 ---
 
-### Imposed duplication
+## Imposed duplication
 
 * Don’t duplicate information in documentation and code
   * bad code requires lots of comments
@@ -47,7 +47,7 @@ Knowledge changes rapidly, regular maintenance is needed
 
 ---
 
-### Inadvertent duplication
+## Inadvertent duplication
 
 Duplication comes from bad design, improper performance improvements etc.
 
@@ -63,7 +63,7 @@ public class Line {
 
 ---
 
-### Impatient duplication
+## Impatient duplication
 
 * Causing by time pressure, laziness of developers, *copy-and-paste*
 * Shortcuts make for long delays
@@ -73,18 +73,10 @@ public class Line {
 
 ---
 
-### Interdeveloper duplication
+## Interdeveloper duplication
 
 * Different developers on a project could implement the same thing many times
 * To deal with that you need
   * frequent communication among developers/teams
   * read other people’s source code and documentation
   * make things easy to reuse
-
----
-
-### Questions
-
-Thanks for your attention!
-
-Now let’s have some Canada Dry!
