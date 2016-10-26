@@ -1,0 +1,502 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Spring Core Introduction</title>
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/print/paper.css">
+		<style>
+			.reveal section img {
+				border: 0;
+				background: none;
+				box-shadow: none;
+			}
+			.reveal .slides {
+				text-align: left;
+			}
+			.reveal .controls .navigate-up, .reveal .controls .navigate-down {
+				display: none;
+			}
+			.reveal pre, .reveal blockquote, .reveal table {
+				margin: 20px 0;
+				width: 100%;
+			}
+			.hljs {
+				background: rgba(255, 255, 255, 0.05);
+			}
+			@media print {
+				.reveal section img {
+					border: 0;
+				}
+				.reveal pre code, .hljs span {
+					color: black !important;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-background-image="image/background.jpg">
+					<script type="text/template">
+![](image/logo-spring.png)
+## Spring Core Introduction
+
+Gabor Bata
+
+work in progress
+
+---
+
+### Introduction to Spring
+* open source application framework
+* modular (MVC, AOP, Integration, Security etc.)
+* extendible
+* the most popular framework
+* de facto standard
+
+---
+
+### Core Container
+
+The Core Container consists of the following modules:
+
+* **spring-core** and **spring-beans**<br>fundamental part: IoC, DI, BeanFactory
+* **spring-context** (ApplicationContext)<br>it is a medium to access any objects defined and configured
+* **spring-context-support**<br>provides support for integrating common third-party libraries
+* **spring-expression (SpEL)**<br>language to query/manipulate objects at runtime
+
+---
+
+### Inversion of Control (IoC)
+* Is an application development concept
+* Hollywood Principle: *Don't call us, we'll call you*
+
+> In software engineering, inversion of control (IoC) describes a design in which
+> custom-written portions of a computer program receive the flow of control from a generic, reusable library.
+
+---
+
+### Dependency Injection (DI)
+
+Is a form of IoC
+
+> An injection is the passing of a dependency (a service) to a dependent object (a client).
+> Passing the service to the client, rather than allowing a client to build or find the service,
+> is the fundamental requirement of the pattern.
+
+Two major variants: constructor and setter injection
+
+---
+
+### Benefits of IoC/DI
+* minimizes the amount of code
+* makes the application more testable
+* promotes programming to interfaces
+* loose coupling with minimal effort
+* supports eager instantiation and lazy loading
+* provides control over object lifecylce
+
+---
+
+### Spring IoC container
+
+Create objects, wire them together, configure them, manage their lifecycle from creation to destruction.
+
+![](image/container-magic.png)
+
+---
+
+### Context Lifecycle
+1. Load definitions
+2. BeanFactoryPostProcessor
+3. Instantiation
+4. Property Injection
+5. BeanPostProcessor
+6. Ready to use
+
+---
+
+### Bean Lifecycle
+
+1. Instantiate
+2. Populate Properties
+3. BeanNameAware#setBeanName()
+4. BeanFactoryAware#setBeanFactory()
+5. ApplicationContextAware#setApplicationContext()
+6. Preinitialization BeanPostProcessors
+7. InitializingBean#afterPropertiesSet()
+8. Call custom init-method
+9. Postinitialization BeanPostProcessors
+10. Bean is ready to use
+
+---
+
+### Bean Lifecycle - destroy
+
+When container is shut down
+
+1. DisposableBean#destroy()
+2. Call custom destroy-method
+
+---
+
+### Creating application context
+
+* **Environments:**<br>Standalone, WEB, JUnit, etc.
+* **Special prefixes:**<br>ClassPath, FileSystem, RelativePath, AnnotationConfig
+
+---
+
+### Instantiate standalone context
+ClassPathApplicationContext / FileSystemApplicationContext
+
+```java
+// create and configure beans
+ApplicationContext context =
+    new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+
+// retrieve configured instance
+UserService service = context.getBean("userService", UserService.class);
+
+// use configured instance
+List<String> userList = service.getUsernameList();
+```
+
+---
+
+### Bean scopes
+
+* simple: singleton, prototype
+* runtime: thread, custom (org.springframework.beans.factory.config.Scope)
+* web-aware: request, session, global session, application
+
+---
+
+### XML based Configuration
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userService" class="com.acme.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+</beans>
+```
+
+---
+
+### Instantiating bean
+1. with constructor
+2. static factory method
+3. instance factory method
+4. with FactoryBean
+
+---
+
+### Instantiating bean 1. - Simple
+
+```xml
+<bean id="userService" class="com.acme.UserServiceImpl" />
+```
+
+---
+
+### Instantiating bean 2. - Static method
+
+```xml
+<bean id="userService" class="com.acme.UserServiceImpl"
+    factory-method="createInstance" />
+```
+
+```java
+public class UserServiceImpl implements UserService {
+
+    public static UserService createInstance() { ... }
+
+}
+
+```
+
+---
+
+### Instantiating bean 3. - Factory method
+
+```xml
+<bean id="userServiceFactory" class="com.acme.UserServiceFactoryImpl"/>
+<bean id="userService" factory-bean="userServiceFactory"
+    factory-method="createInstance" />
+
+```
+
+```java
+public class UserServiceFactory {
+
+    public static UserService createInstance() { ... }
+
+}
+
+```
+
+---
+
+### Instantiating bean - 4. Factory bean
+
+```java
+public interface FactoryBean<T> {
+	T getObject() throws Exception;
+	Class<?> getObjectType();
+	boolean isSingleton();
+}
+```
+
+```java
+public class UserServiceFactoryBean implements FactoryBean<UserService>{
+    public UserService getObject() {
+        // create user service
+    }
+
+    public Class<Car> getObjectType() { return UserService.class; } 
+
+    public boolean isSingleton() { return false; }
+}
+```
+
+```xml
+<bean id="userService" class="com.acme.UserServiceFactoryBean"/>
+```
+
+---
+
+### Constructor-based DI
+
+Good pactice to use contructor based DI for mandatory dependencies.
+Supports immutability.
+
+```xml
+<bean id="userService" class="com.acme.UserServiceImpl">
+    <constuctor-arg ref="userDao"/>
+</bean>
+```
+
+```java
+public class UserServiceImpl implements UserService {
+    private final UserDao userDao;
+
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+}
+
+```
+
+---
+
+### Setter-based DI
+
+For optional dependencies and default values.
+
+```xml
+<bean id="userService" class="com.acme.UserServiceImpl">
+    <property name="userDao" ref="userDao"/>
+</bean>
+```
+
+```java
+public class UserServiceImpl implements UserService {
+    private UserDao userDao;
+
+    public setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+}
+
+```
+
+---
+
+### Annotation Based Configuration
+
+* An alternative to XML setup
+* annotation injections are performed before XML
+
+**Basic configuration**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- looks for annotations on beans -->
+    <context:annotation-config/>
+
+    <!-- scan classes and registers bean definitions -->
+    <context:component-scan base-package="com.acme" />
+
+</beans>
+```
+
+---
+
+### Basic annotations
+
+Spring       | JSR 250         | JSR 330
+------------ | --------------- | ---------
+@Autowired   | @Resource       | @Inject
+@Qualifier   |                 | @Named
+@Component   |                 | @Named
+@Scope       |                 | @Scope, @Singleton
+@Required    |                 |
+@Value       |                 |
+@Lazy        |                 |
+
+---
+
+### @Autowired
+
+```java
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    @Qualifier("userDao")
+    private UserDao userDao;
+
+    // ...
+}
+```
+
+---
+
+### @Resource
+
+```java
+public class UserServiceImpl implements UserService {
+
+    @Resource(name = "userDao")
+    private UserDao userDao;
+
+    // ...
+}
+```
+
+---
+
+### @Autowired vs. @Resource
+
+**@Autowired and @Inject**
+* Matches by Type
+* Restricts by Qualifiers
+* Matches by Name
+
+**@Resource**
+* Matches by Name
+* Matches by Type
+* Restricts by Qualifiers (ignored if match is found by name)
+
+More information in article: [blogs.sourceallies.com/2011/08/spring-injection-with-resource-and-autowired/](http://blogs.sourceallies.com/2011/08/spring-injection-with-resource-and-autowired/)
+
+---
+
+### @Value
+
+```java
+@Component("currencyService")
+public class CurrencyService {
+
+    @Value("${default.currency.code}")
+    private String defaultCurrencyCode;
+    
+    // ...
+}
+```
+
+---
+
+### Annotations for context
+* @Scope
+* @Bean
+* @DependsOn
+* @Lazy
+
+---
+
+### Java based configuration
+
+```java
+// simple
+new AnnotationConfigApplicationContext(ApplicationConfig.class);
+```
+
+```java
+// programmatically
+context = new AnnotationConfigApplicationContext();
+context.register(ApplicationConfig.class);
+context.refresh();
+```
+
+```java
+// scanning
+context = new AnnotationConfigApplicationContext();
+context.scan("com.acme");
+context.refresh();
+```
+
+---
+
+### Approach to configurations
+* XML: infrastructure beans
+* Annotations: working beans, e.g. controllers
+
+---
+
+### Links
+* [http://spring.io/](http://spring.io/)
+* [Reference Documentation](http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/)
+
+---
+
+### Spring DI Alternatives
+* [Google Guice](https://github.com/google/guice) - a lightweight dependency injection framework
+* [Dagger](http://square.github.io/dagger/) - a fast dependency injector for Android and Java
+* [PicoContainer](http://picocontainer.com)
+
+---
+
+## Thank you!
+					</script>
+				</section>
+			</div>
+			
+			
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				history: true,
+				mouseWheel: true,
+				transition: 'none',
+				backgroundTransition: 'none',
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
