@@ -20,9 +20,15 @@
 			.reveal .controls .navigate-up, .reveal .controls .navigate-down {
 				display: none;
 			}
+			.reveal code {
+				font-size: 18px;
+			}
 			.reveal pre, .reveal blockquote, .reveal table {
 				margin: 20px 0;
 				width: 100%;
+			}
+			.reveal blockquote {
+				padding-left: 20px;
 			}
 			.hljs {
 				background: rgba(255, 255, 255, 0.05);
@@ -47,16 +53,16 @@
 
 Gabor Bata
 
-work in progress
+November, 2016
 
 ---
 
 ### Introduction to Spring
-* open source application framework
-* modular (MVC, AOP, Integration, Security etc.)
-* extendible
-* the most popular framework
-* de facto standard
+* Open source application framework
+* Modular (MVC, AOP, Integration, Security etc.)
+* Extendible
+* The most popular framework
+* De facto standard
 
 ---
 
@@ -93,12 +99,12 @@ Two major variants: constructor and setter injection
 ---
 
 ### Benefits of IoC/DI
-* minimizes the amount of code
-* makes the application more testable
-* promotes programming to interfaces
-* loose coupling with minimal effort
-* supports eager instantiation and lazy loading
-* provides control over object lifecylce
+* Minimizes the amount of code
+* Makes the application more testable
+* Promotes programming to interfaces
+* Loose coupling with minimal effort
+* Supports eager instantiation and lazy loading
+* Provides control over object lifecycle
 
 ---
 
@@ -107,6 +113,40 @@ Two major variants: constructor and setter injection
 Create objects, wire them together, configure them, manage their lifecycle from creation to destruction.
 
 ![](image/container-magic.png)
+
+---
+
+### Creating application context
+
+**Environments:**
+
+* Standalone
+* WEB
+* JUnit
+* etc.
+
+**Special prefixes:**
+
+* ClassPath
+* FileSystem
+* RelativePath
+* AnnotationConfig
+
+---
+
+### Instantiate standalone context - example
+
+```java
+// create and configure beans
+ApplicationContext context =
+    new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+
+// retrieve configured instance
+UserService service = context.getBean("userService", UserService.class);
+
+// use configured instance
+List<String> userList = service.getUsernameList();
+```
 
 ---
 
@@ -144,33 +184,12 @@ When container is shut down
 
 ---
 
-### Creating application context
-
-* **Environments:**<br>Standalone, WEB, JUnit, etc.
-* **Special prefixes:**<br>ClassPath, FileSystem, RelativePath, AnnotationConfig
-
----
-
-### Instantiate standalone context
-ClassPathApplicationContext / FileSystemApplicationContext
-
-```java
-// create and configure beans
-ApplicationContext context =
-    new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
-
-// retrieve configured instance
-UserService service = context.getBean("userService", UserService.class);
-
-// use configured instance
-List<String> userList = service.getUsernameList();
-```
-
----
-
 ### Bean scopes
 
-* simple: singleton, prototype
+* simple: singleton (default), prototype
+  ```xml
+  <bean id="..." class="..." scope="prototype"> ... </bean>
+  ```
 * runtime: thread, custom (org.springframework.beans.factory.config.Scope)
 * web-aware: request, session, global session, application
 
@@ -188,28 +207,48 @@ List<String> userList = service.getUsernameList();
     <bean id="userService" class="com.acme.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
+
+    <bean id="userDao" class="com.acme.UserDaoImpl">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
 </beans>
 ```
 
 ---
 
 ### Instantiating bean
-1. with constructor
-2. static factory method
-3. instance factory method
-4. with FactoryBean
+
+A bean can be instantiated with:
+
+1. Constructor
+2. Static factory method
+3. Instance factory method
+4. FactoryBean
+
+![](image/bean.gif)
 
 ---
 
-### Instantiating bean 1. - Simple
+### Instantiating bean - Constructor
 
 ```xml
 <bean id="userService" class="com.acme.UserServiceImpl" />
 ```
 
+```java
+public class UserServiceImpl implements UserService {
+
+    public UserServiceImpl() { ... }
+}
+
+```
+
 ---
 
-### Instantiating bean 2. - Static method
+### Instantiating bean - Static method
 
 ```xml
 <bean id="userService" class="com.acme.UserServiceImpl"
@@ -219,15 +258,16 @@ List<String> userList = service.getUsernameList();
 ```java
 public class UserServiceImpl implements UserService {
 
-    public static UserService createInstance() { ... }
+    private UserServiceImpl() { ... }
 
+    public static UserService createInstance() { ... }
 }
 
 ```
 
 ---
 
-### Instantiating bean 3. - Factory method
+### Instantiating bean - Factory method
 
 ```xml
 <bean id="userServiceFactory" class="com.acme.UserServiceFactoryImpl"/>
@@ -240,20 +280,20 @@ public class UserServiceImpl implements UserService {
 public class UserServiceFactory {
 
     public static UserService createInstance() { ... }
-
 }
 
 ```
 
 ---
 
-### Instantiating bean - 4. Factory bean
+### Instantiating bean - Factory bean
 
 ```java
+// org.springframework.beans.factory.FactoryBean
 public interface FactoryBean<T> {
-	T getObject() throws Exception;
-	Class<?> getObjectType();
-	boolean isSingleton();
+    T getObject() throws Exception;
+    Class<?> getObjectType();
+    boolean isSingleton();
 }
 ```
 
@@ -263,7 +303,7 @@ public class UserServiceFactoryBean implements FactoryBean<UserService>{
         // create user service
     }
 
-    public Class<Car> getObjectType() { return UserService.class; } 
+    public Class<Car> getObjectType() { return UserService.class; }
 
     public boolean isSingleton() { return false; }
 }
@@ -275,9 +315,20 @@ public class UserServiceFactoryBean implements FactoryBean<UserService>{
 
 ---
 
+### Dependency Injection variants
+
+Major variants:
+
+* Constructor-based
+* Setter-based
+
+![](image/dependency-injection.gif)
+
+---
+
 ### Constructor-based DI
 
-Good pactice to use contructor based DI for mandatory dependencies.
+Good practice to use constructor based DI for mandatory dependencies.
 Supports immutability.
 
 ```xml
@@ -322,10 +373,36 @@ public class UserServiceImpl implements UserService {
 
 ---
 
+### Additional features
+
+* bean definition inheritance
+
+  ```xml
+  <bean id="parent" abstract="true"> ... </bean>
+  <bean id="service" parent="parent" class="com.acme.ServiceImpl"> ... </bean>
+  ```
+
+* Importing configuration files
+
+  ```xml
+  <import resouce="classpath:service-config.xml"/>
+  ```
+* Lazy initialization
+  ```xml
+  <bean id="service" class="com.acme.Service" lazy-init="true"> ... </bean>
+  ```
+* Force dependency initialization beforehand
+  ```xml
+  <bean id="service" class="com.acme.Service" depends-on="dao"> ... </bean>
+  ```
+* Autowiring
+
+---
+
 ### Annotation Based Configuration
 
 * An alternative to XML setup
-* annotation injections are performed before XML
+* Annotation injections are performed before XML
 
 **Basic configuration**
 
@@ -361,12 +438,16 @@ Spring       | JSR 250         | JSR 330
 @Required    |                 |
 @Value       |                 |
 @Lazy        |                 |
+@DependsOn   |                 |
+             | @PostConstruct  |
+             | @PreDestory     |
 
 ---
 
 ### @Autowired
 
 ```java
+@Component
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -382,6 +463,7 @@ public class UserServiceImpl implements UserService {
 ### @Resource
 
 ```java
+@Component
 public class UserServiceImpl implements UserService {
 
     @Resource(name = "userDao")
@@ -412,23 +494,27 @@ More information in article: [blogs.sourceallies.com/2011/08/spring-injection-wi
 ### @Value
 
 ```java
-@Component("currencyService")
 public class CurrencyService {
 
     @Value("${default.currency.code}")
     private String defaultCurrencyCode;
-    
+
     // ...
 }
 ```
 
 ---
 
-### Annotations for context
+### Basic annotations - continued
+
+**Context:**
 * @Scope
 * @Bean
 * @DependsOn
 * @Lazy
+
+**Transactional:**
+* @Transactional
 
 ---
 
@@ -478,8 +564,8 @@ context.refresh();
 					</script>
 				</section>
 			</div>
-			
-			
+
+
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
