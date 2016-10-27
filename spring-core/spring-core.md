@@ -137,6 +137,7 @@ When container is shut down
 ### Bean scopes
 
 * simple: singleton (default), prototype
+
   ```xml
   <bean id="..." class="..." scope="prototype"> ... </bean>
   ```
@@ -334,10 +335,12 @@ public class UserServiceImpl implements UserService {
   <import resouce="classpath:service-config.xml"/>
   ```
 * Lazy initialization
+
   ```xml
   <bean id="service" class="com.acme.Service" lazy-init="true"> ... </bean>
   ```
 * Force dependency initialization beforehand
+
   ```xml
   <bean id="service" class="com.acme.Service" depends-on="dao"> ... </bean>
   ```
@@ -424,11 +427,13 @@ public class UserServiceImpl implements UserService {
 ### @Autowired vs. @Resource
 
 **@Autowired and @Inject**
+
 * Matches by Type
 * Restricts by Qualifiers
 * Matches by Name
 
 **@Resource**
+
 * Matches by Name
 * Matches by Type
 * Restricts by Qualifiers (ignored if match is found by name)
@@ -454,12 +459,14 @@ public class CurrencyService {
 ### Basic annotations - continued
 
 **Context:**
+
 * @Scope
 * @Bean
 * @DependsOn
 * @Lazy
 
 **Transactional:**
+
 * @Transactional
 
 ---
