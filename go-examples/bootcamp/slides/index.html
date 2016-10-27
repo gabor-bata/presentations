@@ -1,0 +1,866 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Get Started with Go</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="font-size-adjustment" content="-1" />
+<link rel="stylesheet" href="slidy.css"
+  type="text/css" media="screen, projection, print" />
+<style>
+.codehighlight {
+    color: #000;
+}
+</style>
+<script src="slidy.js" type="text/javascript">
+</script>
+</head>
+<body>
+<!-- this defines the slide background -->
+
+<div class="background">
+
+  <div class="header">
+  <!-- sized and colored via CSS -->
+  </div>
+
+  <div class="footer"></div>
+  </div>
+
+<div class="slide titlepage">
+<div style="height: 135px; width: 480px; overflow: hidden; position: fixed; top: auto; bottom: 10px; left: auto; right: 0;  ">
+<img src="bumper480x270.png" style="margin: -135px 0 0 0;"/>
+</div>
+<img src="google.png" style="position: fixed; top: auto; bottom: 30px; left: 20px; right: auto;"/>
+<br/>
+<img src="go-logo-white.png">
+<br/>
+<br/>
+<h1 style="padding-right: 0pt; margin-right: 0pt; color: #0066cc; font-size: 250%; border-bottom: 0px;">Get Started with Go</h1>
+<div style="color: #ffcc00;">
+</div>
+</div>
+
+<div class="slide">
+    <h1>Why Go?</h1>
+
+<h2>
+</div>
+
+<div class="slide">
+<h1>Why Go?</h1>
+
+<h2>Reaction to &ldquo;speed or ease of use; pick one.&rdquo;
+<ul><li>complexity, weight, and noise (C++, Java)
+<li>nothing statically checked (JavaScript, Python)
+</ul>
+
+<h2>Go is statically typed and compiled, like C++ or Java, but in many ways feels as lightweight and dynamic as JavaScript or Python.
+</div>
+
+<div class="slide">
+<h1>Goals for Go</h1>
+
+<h2>Compile fast.</h2>
+<h2>Feel lightweight on the page.</h2>
+<h2>Feel flexible, adaptable.</h2>
+<h2>Allow interesting, productive tools.</h2>
+<h2>Allow enough control to write efficient programs.</h2>
+</div>
+
+
+<div class="slide">
+    <h1>Today</h1>
+    <h2>Session 1: Nuts and Bolts.</h2>
+    <h2>Session 2: Methods and Interfaces.</h2>
+</div>
+
+<div class="slide">
+    <h1>Philosophy
+    <h2>Less talk, more coding.
+</div>
+
+<div class="slide">
+    <h1>Session 1: Nuts and Bolts.</h1>
+</div>
+
+<div class="slide">
+    <h1>Hello, world</h1>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf("Hello, 世界\n")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Package statement.</h1>
+<pre>
+<span class="codehighlight">package main</span>
+
+import "fmt"
+
+func main() {
+    fmt.Printf("Hello, 世界\n")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Import statements.</h1>
+<pre>
+package main
+
+<span class="codehighlight">import "fmt"</span>
+
+func main() {
+    fmt.Printf("Hello, 世界\n")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Import statements.</h1>
+<pre>
+package main
+
+<span class="codehighlight">import (
+    "fmt"
+    "log"
+)</span>
+
+func main() {
+    fmt.Printf("Hello, 世界\n")
+    log.Stdout("Hello", "世界")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Function definition.</h1>
+<pre>
+package main
+
+import "fmt"
+
+<span class="codehighlight">func main() {
+    fmt.Printf("Hello, 世界\n")
+}</span>
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Function call.</h1>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+    <span class="codehighlight">fmt.Printf</span>("Hello, 世界\n")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Use of package fmt.</h1>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+    <span class="codehighlight">fmt</span>.Printf("Hello, 世界\n")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Referring to capitalized (exported) name.</h1>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+    fmt.<span class="codehighlight">Printf</span>("Hello, 世界\n")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Go source files are UTF-8</h1>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf(<span class="codehighlight">"Hello, 世界\n"</span>)
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Function arguments.</h1>
+<pre>
+func add(<span class="codehighlight">x int, y int</span>) <span class="codehighlight">int</span> {
+    return x + y
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Function arguments.</h1>
+<pre>
+func add(<span class="codehighlight">x, y int</span>) <span class="codehighlight">int</span> {
+    return x + y
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Function arguments.</h1>
+<pre>
+func swap(<span class="codehighlight">x, y int</span>) (<span class="codehighlight">int, int</span>) {
+    return y, x
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Function arguments.</h1>
+<pre>
+func split(sum int) (<span class="codehighlight">x int, y int</span>) {
+    x = sum/3
+    y = sum - sum/3
+    return
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Var</h1>
+<h2>Declare list of names, type last.
+
+<pre>
+var x, y, z int
+var c, python, java Language
+</pre>
+
+<h2>All variables default to zero value for the type.</h2>
+</div>
+
+<div class="slide">
+    <h1>Var</h1>
+<h2>Can initialize.
+
+<pre>
+var x, y, z int = 1, 2, 4
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Var</h1>
+<h2>Can omit type; inferred from initializer.
+
+<pre>
+var x, y, z = 1, 2, 4
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Var</h1>
+<h2>Inside function body, can use <code>:=</code> and drop <code>var</code>.
+
+<pre>
+x, y, z := 1, 2, 4
+</pre>
+
+<h2>Can mix types:
+
+<pre>
+a, b, c := 42, 3.142, "hello"
+
+var (
+    a = 42
+    b = 3.142
+    c = "hello"
+)
+</pre>
+
+</div>
+
+<div class="slide">
+    <h1>Constant declarations.</h1>
+
+<h2>Same rules as <code>var</code>, but keyword <code>const</code>.
+
+<pre>
+const Beta = 'β'
+
+const (
+    Pi = 3.14
+    World = "世界"
+)
+</pre>
+
+<h2>Constants are ideal `<i>values</i>: numbers and strings.
+Can be untyped.</h2>
+</div>
+
+<div class="slide">
+    <h1>For</h1>
+
+<pre>
+sum := 0
+for i := 0; i &lt; 10; i++ {
+    sum += i
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>For</h1>
+
+<pre>
+sum := 1
+for ; sum &lt; 1000;  {
+    sum += sum
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>For</h1>
+
+<pre>
+sum := 1
+for sum &lt; 1000 {
+    sum += sum
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>For</h1>
+
+<pre>
+for ; ; {
+    fmt.Println("mine!")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>For</h1>
+
+<pre>
+for {
+    fmt.Println("mine!")
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>If</h1>
+
+<h2>No parens; braces required to find end of condition.
+
+<pre>
+if x > 0 {
+    ...
+} else {
+    ...
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>If</h1>
+
+<h2>Like <code>for</code>, can have leading initial short statement, scoped.
+
+<pre>
+if x := complicated(); x > 0 {
+    ...
+} else if x < 0 {
+    ...
+} else {
+    ...
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Basic types</h1>
+
+<pre>
+bool
+string
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64
+float32   float64
+complex64 complex128
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Type declarations</h1>
+
+<pre>
+type Foo int
+
+var f Foo = 1
+g := Foo(2)
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Structs</h1>
+
+<pre>
+type Vertex struct {
+    X int
+    Y int
+}
+
+var v Vertex
+v.X = 1
+v.Y = 2
+
+v := Vertex{1, 2}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Pointers</h1>
+
+<pre>
+var v Vertex
+q := &amp;v    // q has type *Vertex
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Struct literals</h1>
+
+<pre>
+type Vertex struct {
+    X int
+    Y int
+}
+
+var p = Vertex{1, 2}   // has type Vertex
+var q = &amp;Vertex{3, 4}  // has type *Vertex
+var r = Vertex{X:1}    // Y:0 is implicit
+var s = Vertex{}       // all zeros
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Maps</h1>
+
+<h2><code>map[</code><i>key</i><code>]</code><i>value</i>
+
+<pre>
+map[string]int
+
+var m map[string]int  // nil, will fault if used
+m = make(map[string]int)
+
+// or, just
+
+m := make(map[string]int)
+
+m["Bootcamp"] = 2011
+i := m["Bootcamp"]
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Map literals</h1>
+
+<pre>
+var m = map[string]bool{
+    "true": true,
+    "false": false,
+}
+
+type Cache map[string]*Entry
+
+m := Cache{"x": &Entry{1}, "y": &Entry{2}}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Slices</h1>
+
+<h2><code>[]</code><i>value</i>
+
+<pre>
+[]int
+[]*Entry
+
+var x []*Entry  // len(x) == 0
+
+y := make([]*Entry, 10)  // len(y) == 10
+z := make([]*Entry, 0, 10) // len(z) == 0, cap(z) == 10
+
+y[0] = 10
+a := y[0] // == 10
+
+b := z[0] // index overflow, 0 >= len(z)
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Slices</h1>
+
+<h2><code>[]</code><i>value</i>
+
+<pre>
+primes := []int{2, 3, 5, 7, 11, 13, 17}
+
+x := primes[2:5] // == []int{5, 7, 11}
+y := primes[:3]  // == []int{2, 3, 5}
+z := primes[3:]  // == []int{7, 11, 13, 17}
+</pre>
+</div>
+
+
+<div class="slide">
+    <h1>Function type</h1>
+
+<h2><code>func(x, y int) int</code>
+
+<pre>
+sum := func(x, y int) int { return x + y }
+// sum(40, 2) == 42
+</pre>
+
+<h2>Full closures.
+
+<pre>
+i := 0
+inc := func(j int) { i += j }
+inc(1)
+// i == 1
+inc(2)
+// i == 3
+</pre>
+</div>
+
+<div class="slide">
+    <h1>For range</h1>
+
+<h2><code>range</code> for looping over slice or map.
+
+<pre>
+for index := range x {
+    fmt.Println(x[index])
+}
+</pre>
+
+<h2>Declaring <code>index</code> for the duration of the loop.</h2>
+</div>
+
+<div class="slide">
+    <h1>For range</h1>
+
+<h2><code>range</code> for looping over slice or map.
+
+<pre>
+for index = range x {
+    fmt.Println(x[index])
+}
+</pre>
+
+<h2>Not declaring <code>index</code>.</h2>
+</div>
+
+<div class="slide">
+    <h1>For range</h1>
+
+<h2><code>range</code> for looping over slice or map.
+
+<pre>
+for index, value = range x {
+    fmt.Println(index, value)
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>For range</h1>
+
+<h2><code>range</code> for looping over slice or map.
+
+<pre>
+for _, value := range x {
+    fmt.Println(value)
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Switch</h1>
+<h2>Generalized switch: not required to use constants.
+
+<pre>
+switch <span class="codehighlight">value</span> {
+case <span class="codehighlight">x</span>:
+    code
+case <span class="codehighlight">y1, y2</span>:
+    more code
+default:
+    other code
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Switch</h1>
+<h2>Generalized switch: not required to use constants.
+
+<pre>
+tmp := <span class="codehighlight">value</span>
+if tmp == <span class="codehighlight">x</span> {
+    code
+} else if tmp == <span class="codehighlight">y1</span> || tmp == <span class="codehighlight">y2</span> {
+    more code
+} else {
+    other code
+}
+</pre>
+
+<h2>(Compiler always free to optimize while preserving semantics.)</h2>
+</div>
+
+<div class="slide">
+    <h1>Switch</h1>
+
+<h2>Like in <code>for</code>, omitted <code>value</code> is <code>true</code>:
+
+<pre>
+func Sqrt(x float64) float64 {
+    switch {
+    case x == 0 || IsNaN(x) || IsInf(x, 1):
+        return x
+    case x < 0:
+        return NaN()
+    }
+    ...
+}
+</pre>
+</div>
+
+<div class="slide">
+<h1>Digression: godoc</h1>
+
+<h2>Documentation for packages at <code>http://golang.org/</code>.
+
+<h2>Also on your local machine:
+<pre>
+godoc -http=:6060 &amp;
+</pre>
+
+<h2>And at the command prompt:
+<pre>
+godoc flag
+godoc flag Args
+godoc godoc
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Session 1: Nuts and Bolts.</h1>
+    
+    <h2>Let's write some code.
+
+    <ul>
+    <li><code>http://goo.gl/iwTVJ</code> (<i>All</i> the info!)
+    <li><code>http://goo.gl/XwuMp</code> (the slides)
+    </ul>
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Session 2: Methods and Interfaces.</h1>
+</div>
+
+<div class="slide">
+    <h1>Methods</h1>
+
+<h2>Methods can be associated with any named type.</h2>
+<h3>but only in the package that declares the type</h3>
+
+<pre>
+type Point struct {
+    X, Y float64
+}
+
+func (p *Point) Abs() float64 {
+    return math.Sqrt(p.X*p.X + p.Y*p.Y)
+}
+
+p := Point{3, 4}
+h := p.Abs()
+// h == 5
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Methods</h1>
+
+<h2>Methods can be associated with <i>any</i> named type.</h2>
+
+<pre>
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+    if f &lt; 0 {
+        return -f
+    }
+    return f
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Interfaces</h1>
+
+<h2>Interface types declare a set of methods.</h2>
+
+<pre>
+type Abser interface {
+    Abs() float64
+}
+</pre>
+</div>
+
+
+<div class="slide">
+    <h1>Interfaces</h1>
+<h2>An interface value can hold any value that implements the methods.</h2>
+
+<pre>
+var (
+    a Abser
+    f MyFloat
+    p Point
+)
+
+a = f   // ok
+a = &amp;p  // ok
+a = p   // ERROR: Abs method receiver is *Point, not Point
+
+a.Abs() // method invocation
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Interfaces</h1>
+    <h2>Types implement interfaces by implementing methods</h2>
+    <ul>
+    <li><i>No explicit declaration of intent.</i></h3>
+    <li><i>Decouples packages</i> - neither depends on the other.</h3>
+    <li><i>Allows more precise interfaces</i></h3>
+    </ul>
+<pre>
+type Reader interface {
+    Read(b []byte) (n int, err os.Error)
+}
+
+type Writer interface {
+    Write(b []byte) (n int, err os.Error)
+}
+
+type ReadWriter interface {
+    Reader
+    Writer
+}
+</pre>
+</div>
+
+<div class="slide">
+	<h1>Errors</h1>
+
+<h2>An error is anything that can describe itself:
+
+<pre>
+package os
+
+type Error interface {
+	String() string
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Web servers</h1>
+
+<h2>Package <code>http</code> serves HTTP requests using
+any value that implements <code>http.Handler</code>:</h2>
+
+<pre>
+package http
+
+type Handler interface {
+    ServeHTTP(conn ResponseWriter, req *Request)
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Web servers</h1>
+
+<h2>As a convenience, package has global path-based multiplexor:</h3>
+<pre>
+func Handle(path string, h Handler)
+func HandleFunc(path string, f func(http.ResponseWriter, *http.Request))
+</pre>
+
+<h3>Pass <code>nil</code> to <code>Serve</code> or <code>ListenAndServe</code> to use the global multiplexor.</h3>
+</div>
+
+<div class="slide">
+<h1>Session 2: Methods and Interfaces.</h1>
+    
+<h2>Let's write some code.
+</div>
+
+<div class="slide">
+    <h1>Go Resources</h1>
+<ul>
+<li><b>http://golang.org/</b> - the official Go homepage.
+	<ul>
+	<li>Lots of documentation (read the language spec!),
+	<li>Tutorials (and codelabs, codewalks),
+	<li>The Go Playground (write, compile, and run Go code from a browser),
+	<li>and more.
+	</ul>
+<li><b>http://blog.golang.org/</b> - the official Go blog.
+<li><b>http://godashboard.appspot.com/package</b> - community-written Go libraries.
+<li><b>http://groups.google.com/group/golang-nuts</b> - the Go users mailing list.
+<li><b>#go-nuts</b> on <b>irc.freenode.net</b> - realtime Go help.
+</ul>
+</div>
+
+<div class="slide titlepage">
+    <h1>Questions?</h1>
+    <br><br>
+    <center>
+    <img src="bumper640x360.png">
+    </center>
+    <br><br>
+    <div style="color: #ffcc00;">
+    <!-- <h3><i>rsc@google.com</i></h3> -->
+    </div>
+</div>
+
+</body></html>
