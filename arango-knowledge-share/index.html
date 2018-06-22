@@ -1,0 +1,449 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Arango Knowledge Share</title>
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/print/paper.css">
+		<style>
+			.reveal section img {
+				border: 0;
+				background: none;
+				box-shadow: none;
+			}
+			.reveal .slides {
+				text-align: left;
+			}
+			.reveal .controls .navigate-up, .reveal .controls .navigate-down {
+				display: none;
+			}
+			.reveal code {
+				font-size: 18px;
+			}
+			.reveal pre, .reveal blockquote, .reveal table {
+				margin: 20px 0;
+				width: 100%;
+			}
+			.reveal blockquote {
+				padding-left: 20px;
+			}
+			.hljs {
+				background: rgba(255, 255, 255, 0.05);
+			}
+			@media print {
+				.reveal section img {
+					border: 0;
+				}
+				.reveal pre code, .hljs span {
+					color: black !important;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-background-image="image/background.jpg">
+					<script type="text/template">
+## 🥑 Arango DB deep dive
+
+---
+
+### ☁️ AWS: EC2 Instance
+
+| Name | API Name | Memory | vCPUs | Instance Storage | Network Performance |
+| ---- | -------- | ------ | ----- | ---------------- | ------------------- |
+| M4 General Purpose Quadruple Extra Large | m4.4xlarge | 64.0 GB | 16 vCPUs | EBS only | High |
+
+---
+
+### ☁️ AWS: EBS
+
+Amazon Elastic Block Store (Amazon EBS) provides persistent block storage volumes for use with Amazon EC2 instances in the AWS Cloud.
+
+| Type |  API Name | Size |
+| ---- | --------- | ---- |
+| Provisioned IOPS SSD | io1 | 1 TB |
+
+Ideal for:
+
+* Critical business applications that require sustained IOPS performance, or more than 10,000 IOPS or 160 MiB/s of throughput per volume.
+* Large database workloads, such as: MongoDB, Cassandra, Microsoft SQL Server, MySQL, PostgreSQL, Oracle
+
+---
+
+### 🎰 Configuration - What worked
+
+| Switch | Description |
+| ------ | ----------- |
+| `server.storage-engine rocksdb` | storage engine (mmfiles, rocksdb) |
+| `query.memory-limit` | memory threshold for queries (2 GB) |
+| `server.maximal-queue-size 100` | maximum queue length for pending operations (default: 0) |
+| `server.threads 8` | number of threads (default: 0) |
+| `javascript.v8-contexts <cpu_cores>` | max number of V8 contexts that are created (default: 0) |
+| `javascript.v8-contexts-minimum <cpu_cores>` | min number of V8 contexts that keep available (default: 0) |
+
+By default EC2 instances does not have swap space. It turned out that ArangoDB is happy with the generated 15 GB swap file.
+
+---
+
+### 🎰 Configuration - Currently being investigated
+
+| Switch | Description |
+| ------ | ----------- |
+| `rocksdb.max-transaction-size` | transaction size limit (in bytes) (2 GB) |
+| `rocksdb.intermediate-commit-size` | threshold of auto-commit and start a new transaction (bytes) (64 MB) |
+| `rocksdb.intermediate-commit-count 1000` | threshold of auto-commit and start a new transaction (ops count)
+| `rocksdb.write-buffer-size` | amount of data to build up in memory before converting to file (64 MB) |
+| `rocksdb.block-cache-size` | block cache size in bytes, default is (system RAM size - 2GiB) * 0.3 |
+| `javascript.v8-max-heap` | maximal heap size (in MB), Default: 3072 |
+
+---
+
+### 🎰 Configuration - What failed #1
+
+Arango recommended Linux kernel configurations:
+
+**Virtual Memory Page Sizes**: Transparent Hugepage (THP) Support for anonymous memory can be entirely disabled (mostly for debugging purposes)
+or only enabled inside MADV_HUGEPAGE regions (to avoid the risk of consuming more memory resources)
+or enabled system wide.
+
+```bash
+echo madvise > /sys/kernel/mm/transparent_hugepage/enabled
+echo madvise > /sys/kernel/mm/transparent_hugepage/defrag
+```
+
+---
+
+### 🎰 Configuration - What failed #2
+
+**Overcommit memory**: It is recommended to assign swap space for a server that is running arangod.
+
+* 0 - the kernel attempts to estimate the amount of free memory left when userspace requests more memory.
+* 1 - the kernel pretends there is always enough memory until it actually runs out.
+* 2 - the kernel uses a "never overcommit" policy that attempts to prevent any overcommit of memory.
+
+```bash
+echo 2 > /proc/sys/vm/overcommit_memory
+```
+
+---
+
+### 🎰 Configuration - What failed #3
+
+**Overcommit ratio**: When overcommit_memory is set to 2, the committed address space is not permitted to exceed swap plus this percentage of physical RAM.
+
+```bash
+echo 100 > /proc/sys/vm/overcommit_ratio
+```
+
+---
+
+### 🎰 Configuration - What failed #4
+
+**Zone_reclaim_mode** allows someone to set more or less aggressive approaches to reclaim memory when a zone runs out of memory. If it is set to zero then no zone reclaim occurs. Allocations will be satisfied from other zones / nodes in the system. This is value ORed together of
+
+* 1 = Zone reclaim on
+* 2 = Zone reclaim writes dirty pages out
+* 4 = Zone reclaim swaps pages
+
+```bash
+echo 0 > /proc/sys/vm/zone_reclaim_mode
+```
+
+---
+
+### 🎰 Configuration - What failed #5
+
+**Max Memory Mappings**: This contains the maximum number of memory map areas a process may have. The default value is 65536. As a rule of thumb, one could use 8 times the number of available cores times 8,000. For a 32 core server, a good rule-of-thumb value thus would be 2,048,000.
+
+```bash
+sysctl -w "vm.max_map_count=#{max_memory_mappings}"
+```
+
+More information on kernel configuration:
+
+* https://docs.arangodb.com/3.3/Manual/Administration/Configuration/OperatingSystem.html
+* https://www.kernel.org/doc/Documentation/sysctl/vm.txt
+* https://www.kernel.org/doc/Documentation/vm/transhuge.txt
+
+---
+
+### 🚗 Storage Engine
+
+ArangoDB 3 comes with two different storage engines:
+
+* `mmfiles` (memory-mapped files) - optimized for the use-case where the data fits into the main memory, indexes are always in memory and are rebuilt on startup. This is the default.
+* `rocksdb` - optimized for large data-sets and allows for a steady insert performance even if the data-set is much larger than the main memory. Indexes are always stored on disk but caches are used to speed up performance.
+
+Due to the expected huge volume of data the rocksdb engine should be the preferred.
+
+---
+
+### 📃 Document storage - special fields
+
+| Property | Description | Details |
+| -------- | ----------- | ------- |
+| `_id` | Document handle (generated) | Uniquely identifies a document in the database. collection + document key, separated by `/`. |
+| `_key` | user-defined document key, uniquely identifies a document in a given collection | Automatically indexed. Arango will auto-generate a document key if not provided. |
+| `_from` | Start point of an edge | Contains document handle, indexed by default |
+| `_to` | End point of an edge | Contains document handle, indexed by default |
+
+---
+
+### 📃 Document storage - format
+
+Arango stores its documents in a compact VelocyPack (VPack) format which is similar to Binary JSON (BSON) in MongoDB.
+
+https://github.com/arangodb/velocypack
+
+---
+
+###  📃 Document storage - key/value access
+
+```java
+// check if a document exists
+db.collection(collectionName).documentExists(key);
+
+// get a single document
+db.collection(collectionName).getDocument(key, getDocumentClass());
+
+// update documents
+db.collection(collectionName).updateDocuments(documents, options);
+
+// import documents
+db.collection(collectionName).importDocuments(documents, new DocumentImportOptions()
+    .onDuplicate(OnDuplicate.update));
+
+// delete documents (this will not update the edge collection!)
+db.collection(collectionName).deleteDocuments(documents, Void.class, options);
+
+// delete document (which updates the edge collection)
+db.graph(graphName).vertexCollection(collectionName).deleteVertex(key, options)
+```
+
+---
+
+### 🥑 AQL
+
+* https://download.arangodb.com/arangodb33/doc/ArangoDB_AQL_3.3.10.pdf
+* `<shared_folder>\arangodb\course\ArangoDB_PerformanceCourse_Release_1.pdf`
+
+---
+
+### 🥑 AQL in Java
+
+```sql
+WITH @@statCollection
+FOR stat IN @@statCollection
+SORT stat.creationDate DESC, stat.pageType
+LIMIT @limit
+RETURN stat
+```
+
+```java
+Map<String, Object> bindVars = new MapBuilder()
+    .put("@statCollection", collectionName)
+    .put("limit", limit)
+    .get();
+ArangoCursor<Statistics> cursor = db.query(query, bindVars, null, Statistics.class);
+return cursor.asListRemaining();
+```
+
+You can use the built-in `BaseDocument` if you do not want to create a specific POJO for your query.
+
+```java
+public class BaseDocument implements Serializable {
+  @DocumentField(Type.ID)
+  protected String id;
+  @DocumentField(Type.KEY)
+  protected String key;
+  @DocumentField(Type.REV)
+  protected String revision;
+  protected Map<String, Object> properties;
+  ...
+}
+```
+
+---
+
+### 🥑 AQL example
+
+```sql
+FOR page IN `page`
+COLLECT pageType = page.pageType
+AGGREGATE
+  vendoraCount = SUM(TO_NUMBER(CONTAINS(page.dataSource, 'VENDORA'))),
+  vendorbCount = SUM(TO_NUMBER(CONTAINS(page.dataSource, 'VENDORB')))
+SORT pageType
+RETURN {
+  pageType: pageType,
+  vendoraCount: vendoraCount,
+  vendorbCount: vendorbCount
+}
+```
+
+---
+
+### 🥑 AQL - explain query
+
+```bash
+Execution plan:
+ Id   NodeType                   Est. Comment
+  1   SingletonNode                 1 * ROOT
+  2   EnumerateCollectionNode 2977336   - FOR page IN page /* full collection scan ...
+  3   CalculationNode         2977336     - LET #4 = page.`pageType` ...
+  4   CalculationNode         2977336     - LET #6 = TO_NUMBER(CONTAINS(page...
+  5   CalculationNode         2977336     - LET #8 = TO_NUMBER(CONTAINS(page...
+  6   CollectNode             2381868     - COLLECT pageType = #4 AGGREGATE ...
+  7   SortNode                2381868     - SORT pageType ASC
+  8   CalculationNode         2381868     - LET #10 ...
+  9   ReturnNode              2381868     - RETURN #10
+
+Indexes used:
+ none
+
+Optimization rules applied:
+ Id   RuleName
+  1   move-calculations-up
+  2   remove-redundant-sorts
+...
+```
+
+---
+
+### 🥑 AQL - Graph queries
+`<shared_folder>\arangodb\course\ArangoDB-GraphCourse-for-Freshers.pdf`
+
+```sql
+[WITH collection1[, collection2[, ...collectionN]]]
+FOR vertex[, edge[, path]]
+IN [min[..max]]
+OUTBOUND|INBOUND|ANY startVertex
+GRAPH graphName
+[OPTIONS options]
+```
+
+or
+
+```sql
+[WITH collection1[, collection2[, ...collectionN]]]
+FOR vertex[, edge[, path]]
+IN [min[..max]]
+OUTBOUND|INBOUND|ANY startVertex
+edgeCollection1, ..., edgeCollectionN
+[OPTIONS options]
+```
+
+example
+
+```sql
+LET startVertex = FIRST(FOR doc IN `page` LIMIT 1 RETURN doc)
+FOR vertex, edge IN 1..1
+OUTBOUND startVertex._id
+GRAPH 'graph'
+LIMIT 10
+RETURN {from: startVertex, to: vertex, date: edge.modificationDate}
+```
+
+---
+
+## 🖧 Replication and sharding
+
+* `<shared_folder>\arangodb\course\ArangoDB_Cluster_Administration_Course.pdf`
+* https://confluence/display/POS/Deploy+ArangoDB+to+AWS
+
+Based on our experiences, the resilient cluster setup is not mature enough for production use, at least in the community edition.
+The communication overhead among nodes in different AZs makes the whole system unresponsive.
+
+Currently planned approach: asynchronous replication.
+
+---
+
+### 🔧 Tools
+
+**ArangoDB starter**: start ArangoDB clusters and single servers with ease: https://github.com/arangodb-helper/arangodb
+
+```bash
+arangodb --starter.mode=single
+  --auth.jwt-secret secret.txt
+  --server.storage-engine=rocksdb
+  --all.server.maximal-queue-size 100
+  --all.server.threads 8
+  ...
+```
+
+---
+
+### 🔧 Tools - Arango Shell
+
+It is basically a JavaScript console for ArangoDB.
+
+```text
+$ arangosh --server.database mydatabase --server.endpoint tcp://localhost:8529
+Please specify a password:
+
+                                       _
+  __ _ _ __ __ _ _ __   __ _  ___  ___| |__
+ / _` | '__/ _` | '_ \ / _` |/ _ \/ __| '_ \
+| (_| | | | (_| | | | | (_| | (_) \__ \ | | |
+ \__,_|_|  \__,_|_| |_|\__, |\___/|___/_| |_|
+                       |___/
+
+arangosh (ArangoDB 3.3.10 [win64] 64bit, using build tags/v3.3.10-0-g902a980389, ...
+Copyright (c) ArangoDB GmbH
+
+Pretty printing values.
+Connected to ArangoDB 'http+tcp://127.0.0.1:8529' version: 3.3.10 [server], ...
+
+Type 'tutorial' for a tutorial or 'help' to see common examples
+localhost:8529@mydatabase>
+```
+
+---
+
+### 🔧 Tools - other
+
+| Command | Description |
+| ------- | ----------- |
+| arangoexport | export collection data |
+| arangoimp | import, previously exported collection data |
+| arangodump | dump database (optionally with system collections) |
+| arangorestore | restore dump data |
+
+---
+
+### Arango Documentation
+
+* https://www.arangodb.com/download-arangodb-docs/
+* Arango Changelog: https://github.com/arangodb/arangodb/blob/3.3/CHANGELOG
+* Java Driver Changelog: https://github.com/arangodb/arangodb-java-driver/blob/master/ChangeLog
+
+					</script>
+				</section>
+			</div>
+
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				history: true,
+				mouseWheel: true,
+				transition: 'none',
+				backgroundTransition: 'none',
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
